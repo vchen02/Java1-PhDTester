@@ -1,6 +1,7 @@
 /** 	NetId: Victor, Chen 
- * Time spent: hh hours, mm minutes.
- * An instance maintains info about the PhD of a person. 
+ * Time spent: 03 hours, 37 minutes.
+ * An instance maintains info about the PhD of a person.
+ * 
  */
 
 /** An instance of a person with an PhD */
@@ -19,6 +20,7 @@ public class PhD {
 	
 	/** Constructor: an instance for a person with name n, gender g, PhD year y, 
 	 * and PhD month m. Its advisors are unknown, and it has no advisees.
+	 * 
 	 * Precondition: n has at least 1 character, m is in 1..12, and g is 'M' for male 
 	 * or 'F' for female.
 	 */
@@ -39,6 +41,40 @@ public class PhD {
 		numOfAdvisees = 0;
 	}
 
+	/** Constructor: a PhD with name n, gender g, PhD year y, PhD month m, first
+	 * advisor adv, and no second advisor.
+	 * 
+	 * Precondition: n has at least 1 char, g is 'F' for female or 'M' for male, m is in
+	 * 1..12, and adv is not null.
+	 */
+	PhD(String n, char g, int y, int m, PhD adv) {
+		//Call above constructor to set name, gender, year, and month values
+		this(n, g, y, m);
+		
+		//Check extra precondition
+		assert adv != null;
+		
+		firstAdvisor = adv;
+		adv.numOfAdvisees++;
+	}
+	
+	/** Constructor: a PhD with name n, gender g, PhD year y, PhD month m, first
+	 * advisor adv1, and second advisor adv2.
+	 * 
+	 * Precondition: n has at least 1 char, g is 'F' for female or 'M' for male, m is in
+	 * 1..12, adv1 and adv2 are not null, and adv1 and adv2 are different.
+	 */
+	PhD(String n, char g, int y, int m, PhD adv1, PhD adv2) {
+		//Call above constructor to set name, gender, year, month, and first advisor values
+		this(n, g, y, m, adv1);
+		
+		//Check extra precondition
+		assert adv2 != null && adv1 != adv2;
+		
+		secondAdvisor = adv2;
+		adv2.numOfAdvisees++;
+	}
+	
 	/** Return this person's name. */
 	public String getName() {
 		return name;
@@ -84,6 +120,7 @@ public class PhD {
 	}
 	
 	/** Add p as this persons second advisor.
+	 * 
 	 *  Precondition: This person's first advisor is known, their second 
 	 *  advisor is unknown, p is not null, and p is different from this person's first advisor.
 	 */
@@ -92,5 +129,27 @@ public class PhD {
 		secondAdvisor = p;
 		p.numOfAdvisees++;
 	}	
+	
+	/** Return value of "this person got their PhD after p did."
+	 * 
+	 * Precondition: p is not null.
+	 */
+	public boolean isYoungerThan(PhD p) {
+		//test  precondition
+		assert p != null;
+		
+		return (year == p.getYear() && month > p.getMonth()) || year > p.getYear(); 
+	}
+	
+	/** Return value of "this person and p are intellectual siblings.”
+	 * 
+	 * Note: if p is null, they are not siblings.
+	 */
+	public boolean isPhDSibling(PhD p) {
+		
+		return ( p == null ? false : 
+				( (firstAdvisor == p || secondAdvisor == p) ? true :
+				( numOfAdvisees != 0 ? p.getFirstAdvisor() == this || p.getSecondAdvisor() == this : false )));	
+	}
 	
 }
