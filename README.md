@@ -10,3 +10,6 @@ which help make your programs readable and understandable.
 - Learn about and practice thorough testing of a program using JUnit testing.
 - Learn to write class invariants.
 - Learn about preconditions of a method (requirements of a call on the
+
+##Project Details
+- See [Project PDF](https://github.com/vchen02/Java1-PhDTester/blob/master/a1.pdf) for description of this assignment.
